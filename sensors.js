@@ -46,6 +46,7 @@ var Sensors = new Lang.Class({
         this._last_query = 0;
         this._last_processor = {};
         this._last_network = {};
+        this._last_storage = [0, 0];
         this.storage = new GTop.glibtop_fsusage();
     },
 
@@ -312,8 +313,9 @@ var Sensors = new Lang.Class({
         }
     },
 
-    _queryStorage: function(callback) {
-        GTop.glibtop_get_fsusage(this.storage, '/');
+    _queryStorage: function(callback, diff) {
+        let path = '/';
+        GTop.glibtop_get_fsusage(this.storage, path);
 
         let total = this.storage.blocks * this.storage.block_size;
         let avail = this.storage.bavail * this.storage.block_size;
@@ -326,6 +328,67 @@ var Sensors = new Lang.Class({
         this._returnValue(callback, 'Reserved', reserved, 'storage', 'storage');
         this._returnValue(callback, 'Free', avail, 'storage', 'storage');
         this._returnValue(callback, 'storage', avail, 'storage-group', 'storage');
+
+
+
+        new FileModule.File('/proc/mounts').read().then(lines => {
+            lines = lines.split("\n");
+
+            for (let line of Object.values(lines)) {
+                line = line.split(' ');
+                if (line[1] == path) {
+
+                    let c1 = 5;
+                    let c2 = 9;
+
+                    new FileModule.File('/proc/diskstats').read().then(lines2 => {
+                        lines2 = lines2.split("\n");
+
+                        for (let line2 of Object.values(lines2)) {
+                            //line2 = line2.split(' ');
+                            line2 = line2.trim().split(/[\s]+/);
+
+                            if ('/dev/' + line2[2] == line[0]) {
+
+                                if (this._last_storage[0] > 0 && this._last_storage[1] > 0) {
+
+                //this.usage[i] = ((accum[i] - this.last[i]) / delta / 1024 / 8);
+
+                                    //let read = ((line2[c1] - this._last_storage[0]) / diff) * 1024;
+                                    //let write = ((line2[c2] - this._last_storage[1]) / diff) * 1024;
+
+                                    let read = ((line2[c1] - this._last_storage[0]) / diff) * 512;
+                                    let write = ((line2[c2] - this._last_storage[1]) / diff) * 512;
+
+                                    this._returnValue(callback, 'Read', read, 'storage', 'speed');
+                                    this._returnValue(callback, 'Write', write, 'storage', 'speed');
+
+                                }
+
+
+
+                                this._last_storage[0] = line2[c1];
+                                this._last_storage[1] = line2[c2];
+
+
+                            }
+                        }
+                    }).catch(err => {
+                        global.log(err);
+                    });
+
+
+
+
+
+
+
+
+                }
+            }
+        }).catch(err => {
+            global.log(err);
+        });
     },
 
     _returnValue: function(callback, label, value, type, format) {
