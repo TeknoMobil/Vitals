@@ -136,9 +136,6 @@ msgstr "Alfabetizza i sensori"
 msgid "Hide zero values"
 msgstr "Nascondi valori nulli"
 
-msgid "Format"
-msgstr "Formato"
-
 #: prefs about
 msgid ""
 "Like what you see? Support the development of this extension via "
@@ -203,3 +200,12 @@ msgstr "Di"
 
 msgid "Sensors"
 msgstr "Sensori"
+
+msgid "Format"
+msgstr "Formato"
+
+msgid "Bits"
+msgstr ""
+
+msgid "Bytes"
+msgstr ""

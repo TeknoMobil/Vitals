@@ -191,3 +191,18 @@ msgstr ""
 
 msgid "Sensors"
 msgstr ""
+
+msgid "Format"
+msgstr ""
+
+msgid "Bits"
+msgstr ""
+
+msgid "Bytes"
+msgstr ""
+
+msgid "Uptime"
+msgstr ""
+
+msgid "Process Time"
+msgstr ""

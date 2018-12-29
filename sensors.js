@@ -217,7 +217,7 @@ var Sensors = new Lang.Class({
 
             let cores = Object.keys(this._last_processor).length - 1;
             if (cores > 0)
-                this._returnValue(callback, 'Used Cycles', upArray[0] - upArray[1] / cores, 'system', 'duration');
+                this._returnValue(callback, 'Process Time', upArray[0] - upArray[1] / cores, 'processor', 'duration');
         }).catch(err => {
             global.log(err);
         });

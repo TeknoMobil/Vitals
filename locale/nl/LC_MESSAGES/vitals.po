@@ -135,9 +135,6 @@ msgstr "Sensors sorteren"
 msgid "Hide zero values"
 msgstr "Nulwaarden tonen"
 
-msgid "Format"
-msgstr "Formaat"
-
 #: prefs about
 msgid ""
 "Like what you see? Support the development of this extension via "
@@ -201,3 +198,12 @@ msgstr "Wat betreft"
 
 msgid "Sensors"
 msgstr "Sensoren"
+
+msgid "Format"
+msgstr "Formato"
+
+msgid "Bits"
+msgstr ""
+
+msgid "Bytes"
+msgstr ""
